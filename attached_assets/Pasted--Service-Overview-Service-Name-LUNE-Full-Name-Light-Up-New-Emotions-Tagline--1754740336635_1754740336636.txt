@@ -1,0 +1,137 @@
+# Service Overview
+Service Name: LUNE
+Full Name: Light Up New Emotions
+Tagline: "당신의 마음 속 새로운 감정을 밝혀주는 AI 연애 가이드"
+Concept: AI-powered dating concierge that guides users to discover and nurture new emotions through personalized matchmaking and conversation coaching.
+
+# Brand Philosophy
+LUNE symbolizes moonlight guiding people through the uncertainty of finding love. Our mission is to illuminate new emotions for each user, blending AI precision with human warmth.
+
+# Key Visual Motif
+- Moonlight & soft gradients
+- Warm, intimate tones
+- Minimal yet emotional design
+
+# Core Features (MVP)
+1. AI-driven profile analysis & compatibility scoring
+2. Emotion-based matchmaking
+3. Real-time AI conversation coaching
+4. Post-date emotional feedback & growth tracking
+
+# Target Users
+- 20~40대 싱글 남녀
+- 진정성 있는 만남을 원하는 사람
+- 기존 데이팅앱에서 피로감을 느낀 사용자
+
+# User Flow (MVP)
+1. Onboarding & AI Persona Introduction
+2. Profile creation (emotion-focused questions)
+3. AI matchmaking (compatibility score)
+4. AI conversation coaching
+5. Emotional feedback & personalized tips
+
+# Tech Stack Recommendation
+Frontend: React (Next.js) + Tailwind CSS
+Backend: Node.js (Express) / Python (FastAPI)
+Database: PostgreSQL
+AI Integration: OpenAI API / LangChain
+Hosting: Replit / Vercel
+
+# API Endpoints (Example)
+POST /api/profile/create
+POST /api/match/find
+POST /api/chat/coach
+POST /api/feedback/save
+
+# Timeline
+- Week 1: Branding & MVP wireframe
+- Week 2: AI matching prototype
+- Week 3: Conversation coaching module
+- Week 4: Internal test & UX polish
+
+# Success Metrics (MVP)
+- Matching Success Rate > 65%
+- Daily Active Users > 1,000
+- Conversation Engagement Rate > 70%
+
+# Prompt Pack (20 AI Agent Behaviors)
+
+1. onboarding_summary  
+Desc: 프로필 요약 생성  
+Prompt: You are a friendly assistant. Summarize the user's profile (bio and tags) into one 1-sentence marketing-style summary (max 20 words) and generate 3 matching keywords. Output JSON {summary, keywords:[]}
+
+2. profile_to_embedding  
+Desc: 임베딩 텍스트 생성  
+Prompt: Convert profile fields (bio + tags + one-line intro) into a single clean string suitable for embeddings. Remove emojis and filler words. Output plain text.
+
+3. match_reasons  
+Desc: 매칭 이유 생성  
+Prompt: Given profile A and profile B, produce 2 short reasons (each 1 sentence) why they would be a good match. Include one shared interest and one complementary trait. Output JSON [{reason, score}]
+
+4. first_message_templates  
+Desc: 첫문장 템플릿 5개 생성  
+Prompt: Given viewer profile and target profile, produce 5 first-message templates with distinct tones: casual, humorous, curious, straightforward, activity-invite. Provide short explanation for each. Output JSON [{tone, message, why}]
+
+5. next_message_suggestions  
+Desc: 대화에서 다음메시지 제안  
+Prompt: Given conversation history (last 3 messages) and user intent (tone preference), propose 3 next message options with brief rationale. Output JSON [{message, rationale}]
+
+6. conversation_tone  
+Desc: 대화 톤 분류  
+Prompt: Classify the conversation sample into tones: friendly, flirtatious, neutral, hostile, playful. Output JSON {tone, confidence}
+
+7. safety_filter  
+Desc: 유해성 분류  
+Prompt: Classify the input text as safe, unsafe, sexual, abusive, or spam. Return JSON {label, confidence}. If label is unsafe or sexual, include suggested safe alternative text.
+
+8. profile_completion_suggestion  
+Desc: 프로필 보강 제안  
+Prompt: Given user's profile (bio + tags), suggest 3 improvements to make it more engaging for matches (one-liner each). Output JSON ["suggestion"]
+
+9. activity_invite_generator  
+Desc: 액티비티 초대문구 생성  
+Prompt: Given shared interest (e.g., tennis) and city, create 3 short activity-invite messages suitable as first invites (max 30 words). Include a time suggestion. Output JSON [{message, time_suggestion}]
+
+10. mutual_topics  
+Desc: 공통 관심사 추출  
+Prompt: Given two profiles, extract up to 5 mutual or complementary topics/keywords that can be used as conversation openers. Output JSON ["topic"]
+
+11. photo_caption  
+Desc: 프로필 사진 캡션 생성  
+Prompt: Generate a friendly, authentic 1-line caption for a user's profile photo showing them doing X (e.g., surfing). Max 12 words.
+
+12. match_score_explainer  
+Desc: 매칭 점수 설명 생성  
+Prompt: Given matching score (0-100) and features, produce a one-sentence explanation of why the score is high/low. Output JSON {explain}
+
+13. scheduling_helper  
+Desc: 약속 일정 제안  
+Prompt: Given both users' location city and weekend preferences, propose 3 short in-person date ideas with approximate budget. Output JSON [{idea, est_budget}]
+
+14. spam_detector  
+Desc: 스팸 탐지용 간단 모델  
+Prompt: Classify whether this message is likely spam (yes/no) and return confidence. If yes, provide example why.
+
+15. tone_transfer  
+Desc: 톤 변환 예시  
+Prompt: Rewrite the given message into a different tone (e.g., from straightforward to playful). Keep original meaning. Output JSON {original, rewritten}
+
+16. consent_phrase  
+Desc: 데이트 동의/안전 문구 생성  
+Prompt: Generate a short safe-and-consent message template a user can send before meeting (max 20 words). Output plain text.
+
+17. bad_behavior_template  
+Desc: 부적절 행동 경고 템플릿  
+Prompt: Given an offending message, generate a calm warning message template to send to the sender asking them to stop. Keep it firm and non-escalatory. Output plain text.
+
+18. bio_from_answers  
+Desc: 온보딩 질문으로부터 바이오 생성  
+Prompt: Given answers to 5 onboarding questions, generate a 2-line bio and 1-sentence icebreaker. Output JSON {bio, icebreaker}
+
+19. language_localizer  
+Desc: 언어 현지화 보조  
+Prompt: Translate and localize the given UI text into target language (ko/en) keeping tone friendly and short. Output JSON {lang, text}
+
+20. ai_reply_quality  
+Desc: AI 제안문 품질 점검  
+Prompt: Given a suggested message, score it 1-10 on quality (engaging, safe, concise) and provide short feedback. Output JSON {score, feedback}
