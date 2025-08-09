@@ -286,6 +286,23 @@ export class DatabaseStorage implements IStorage {
       isOnboardingComplete: true,
     });
 
+    // Create or update profile with onboarding data
+    const existingProfile = await this.getProfile(userId);
+    if (existingProfile) {
+      await this.updateProfile(userId, {
+        interests: answers.interests,
+        values: answers.values,
+        lookingFor: answers.lookingFor,
+      });
+    } else {
+      await db.insert(profiles).values({
+        userId,
+        interests: answers.interests,
+        values: answers.values,
+        lookingFor: answers.lookingFor,
+      });
+    }
+
     // Create or update profile
     const existingProfile = await this.getProfile(userId);
     if (existingProfile) {

@@ -147,10 +147,11 @@ export default function Onboarding() {
       });
       
       setLocation("/");
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Onboarding submission error:", error);
       toast({
         title: "오류가 발생했습니다",
-        description: "다시 시도해주세요.",
+        description: error.response?.data?.message || "다시 시도해주세요.",
         variant: "destructive"
       });
     } finally {

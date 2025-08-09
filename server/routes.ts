@@ -69,7 +69,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/onboarding/:userId", async (req, res) => {
     try {
       const userId = req.params.userId;
+      console.log("Onboarding request body:", req.body);
+      
       const answers = onboardingAnswersSchema.parse(req.body);
+      console.log("Parsed onboarding answers:", answers);
       
       await storage.completeOnboarding(userId, answers);
       
@@ -102,6 +105,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ success: true });
     } catch (error) {
+      console.error("Onboarding validation error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid onboarding data", 
+          errors: error.errors,
+          received: req.body
+        });
+      }
       res.status(400).json({ message: "Invalid onboarding data" });
     }
   });

@@ -199,12 +199,12 @@ export const insertReportSchema = createInsertSchema(reports).omit({
 });
 
 export const onboardingAnswersSchema = z.object({
-  happinessTriggers: z.array(z.string()),
-  communicationStyle: z.string(),
-  relationshipGoals: z.string(),
-  interests: z.array(z.string()),
-  values: z.array(z.string()),
-  lookingFor: z.string(),
+  happinessTriggers: z.array(z.string()).min(1, "Please select at least one happiness trigger"),
+  communicationStyle: z.string().min(1, "Please select a communication style"),
+  relationshipGoals: z.string().min(1, "Please select your relationship goals"),
+  interests: z.array(z.string()).min(1, "Please select at least one interest"),
+  values: z.array(z.string()).min(1, "Please select at least one value"),
+  lookingFor: z.string().min(1, "Please specify what you're looking for"),
 });
 
 // Types
