@@ -115,7 +115,10 @@ export class DatabaseStorage implements IStorage {
   async createMatch(match: InsertMatch): Promise<Match> {
     const [newMatch] = await db
       .insert(matches)
-      .values([match])
+      .values([{
+        ...match,
+        matchReasons: (match.matchReasons as any) || []
+      }])
       .returning();
     return newMatch;
   }
@@ -225,7 +228,10 @@ export class DatabaseStorage implements IStorage {
   async createEmotionalFeedback(feedback: InsertEmotionalFeedback): Promise<EmotionalFeedback> {
     const [newFeedback] = await db
       .insert(emotionalFeedback)
-      .values([feedback])
+      .values([{
+        ...feedback,
+        growthRecommendations: (feedback.growthRecommendations as any) || []
+      }])
       .returning();
     return newFeedback;
   }
@@ -275,50 +281,57 @@ export class DatabaseStorage implements IStorage {
   }
 
   async completeOnboarding(userId: string, answers: OnboardingAnswers): Promise<void> {
-    // Update user emotion profile
-    await this.updateUser(userId, {
-      emotionProfile: {
-        primaryEmotions: answers.happinessTriggers,
-        happinessTriggers: answers.happinessTriggers,
-        communicationStyle: answers.communicationStyle,
-        relationshipGoals: answers.relationshipGoals,
-      },
-      isOnboardingComplete: true,
-    });
+    console.log("Starting onboarding for user:", userId);
+    
+    // Check if user exists
+    let user = await this.getUser(userId);
+    console.log("Found existing user:", !!user);
+    
+    if (!user) {
+      // Create new user first
+      console.log("Creating new user");
+      user = await this.createUser({
+        id: userId,
+        username: `user_${Math.random().toString(36).substr(2, 9)}`,
+        email: `${userId}@lune.app`,
+        password: "temp_password",
+        name: "사용자",
+        age: 25,
+        location: "서울",
+        emotionProfile: {
+          primaryEmotions: answers.happinessTriggers,
+          happinessTriggers: answers.happinessTriggers,
+          communicationStyle: answers.communicationStyle,
+          relationshipGoals: answers.relationshipGoals,
+        },
+        isOnboardingComplete: true,
+      });
+      console.log("Created user successfully:", user.id);
+    }
 
-    // Create or update profile with onboarding data
+    // Now create or update profile
+    console.log("Creating/updating profile for user:", userId);
     const existingProfile = await this.getProfile(userId);
+    
     if (existingProfile) {
+      console.log("Updating existing profile");
       await this.updateProfile(userId, {
         interests: answers.interests,
         values: answers.values,
         lookingFor: answers.lookingFor,
       });
     } else {
+      console.log("Creating new profile");
       await db.insert(profiles).values({
         userId,
-        interests: answers.interests,
-        values: answers.values,
+        interests: answers.interests as string[],
+        values: answers.values as string[],
         lookingFor: answers.lookingFor,
       });
+      console.log("Profile created successfully");
     }
-
-    // Create or update profile
-    const existingProfile = await this.getProfile(userId);
-    if (existingProfile) {
-      await this.updateProfile(userId, {
-        interests: answers.interests,
-        values: answers.values,
-        lookingFor: answers.lookingFor,
-      });
-    } else {
-      await this.createProfile({
-        userId,
-        interests: answers.interests,
-        values: answers.values,
-        lookingFor: answers.lookingFor,
-      });
-    }
+    
+    console.log("Onboarding completed successfully for user:", userId);
   }
 }
 

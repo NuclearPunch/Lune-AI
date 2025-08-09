@@ -134,10 +134,10 @@ export default function Onboarding() {
         relationshipGoals: answers.relationship?.[0] || "",
         interests: answers.interests || [],
         values: answers.values || [],
-        lookingFor: answers.relationship?.[0] || ""
+        lookingFor: `${answers.relationship?.[0] || ""} - ${answers.communication?.[0] || ""}`
       };
 
-      const userId = "temp-user-id"; // This would come from auth
+      const userId = "82d41cc4-626d-469a-8098-40326681948e"; // Using existing user for demo
       await apiRequest("POST", `/api/onboarding/${userId}`, onboardingData);
       
       localStorage.setItem("onboarding_complete", "true");

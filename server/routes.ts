@@ -74,6 +74,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const answers = onboardingAnswersSchema.parse(req.body);
       console.log("Parsed onboarding answers:", answers);
       
+      // Skip user creation for now and proceed with onboarding directly
+      console.log("Processing onboarding for user:", userId);
+      
       await storage.completeOnboarding(userId, answers);
       
       // Generate AI summary and embedding
@@ -105,15 +108,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ success: true });
     } catch (error) {
-      console.error("Onboarding validation error:", error);
+      console.error("Onboarding error:", error);
       if (error instanceof z.ZodError) {
+        console.error("Validation errors:", error.errors);
         return res.status(400).json({ 
           message: "Invalid onboarding data", 
           errors: error.errors,
           received: req.body
         });
       }
-      res.status(400).json({ message: "Invalid onboarding data" });
+      console.error("Full error details:", error);
+      res.status(500).json({ 
+        message: "Onboarding failed",
+        error: error instanceof Error ? error.message : String(error)
+      });
     }
   });
 
