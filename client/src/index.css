@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* LUNE Brand Colors - Moonlight Theme */
+  --midnight: hsl(246, 39%, 17%);
+  --moonlight: hsl(220, 14%, 96%);
+  --lavender: hsl(266, 46%, 77%);
+  --rose: hsl(2, 53%, 74%);
+  --purple: hsl(258, 31%, 47%);
+  --cream: hsl(48, 100%, 95%);
+
+  /* Shadcn Base Colors - Adapted for LUNE */
+  --background: var(--midnight);
+  --foreground: var(--moonlight);
+  --card: hsl(246, 39%, 20%);
+  --card-foreground: var(--moonlight);
+  --popover: hsl(246, 39%, 19%);
+  --popover-foreground: var(--moonlight);
+  --primary: var(--lavender);
+  --primary-foreground: var(--midnight);
+  --secondary: var(--purple);
+  --secondary-foreground: var(--moonlight);
+  --muted: hsl(246, 20%, 25%);
+  --muted-foreground: hsl(220, 14%, 75%);
+  --accent: var(--rose);
+  --accent-foreground: var(--midnight);
+  --destructive: hsl(0, 63%, 58%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(246, 20%, 30%);
+  --input: hsl(246, 20%, 25%);
+  --ring: var(--lavender);
+
+  /* Glass Effect Variables */
+  --glass-bg: hsla(246, 39%, 17%, 0.1);
+  --glass-border: hsla(220, 14%, 96%, 0.2);
+  --glass-backdrop: blur(16px);
+
+  /* Font Configuration */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 1rem;
+
+  /* Animation Variables */
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+}
+
+.dark {
+  --background: var(--midnight);
+  --foreground: var(--moonlight);
+  --card: hsl(246, 39%, 15%);
+  --card-foreground: var(--moonlight);
+  --popover: hsl(246, 39%, 15%);
+  --popover-foreground: var(--moonlight);
+  --primary: var(--lavender);
+  --primary-foreground: var(--midnight);
+  --secondary: var(--purple);
+  --secondary-foreground: var(--moonlight);
+  --muted: hsl(246, 20%, 20%);
+  --muted-foreground: hsl(220, 14%, 70%);
+  --accent: var(--rose);
+  --accent-foreground: var(--midnight);
+  --border: hsl(246, 20%, 25%);
+  --input: hsl(246, 20%, 20%);
+  --ring: var(--lavender);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-gradient-to-br from-midnight via-purple to-lavender min-h-screen text-foreground;
+  }
+
+  /* Custom animations for LUNE */
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+      transform: translateY(-10px) rotate(1deg); 
+    }
+  }
+
+  @keyframes glow {
+    from { 
+      box-shadow: 0 0 20px hsla(266, 46%, 77%, 0.3); 
+    }
+    to { 
+      box-shadow: 0 0 30px hsla(266, 46%, 77%, 0.6); 
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@layer components {
+  /* Glass morphism effect */
+  .glass-effect {
+    backdrop-filter: var(--glass-backdrop);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Gradient backgrounds */
+  .gradient-bg {
+    background: linear-gradient(135deg, var(--midnight) 0%, var(--purple) 50%, var(--lavender) 100%);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--rose) 0%, var(--lavender) 100%);
+  }
+
+  .gradient-secondary {
+    background: linear-gradient(135deg, var(--lavender) 0%, var(--purple) 100%);
+  }
+
+  /* Moonlight glow effect */
+  .moonlight-glow {
+    background: radial-gradient(circle at 50% 50%, hsla(266, 46%, 77%, 0.1) 0%, transparent 70%);
+  }
+
+  /* Floating animation */
+  .animate-float {
+    animation: var(--animate-float);
+  }
+
+  .animate-glow {
+    animation: var(--animate-glow);
+  }
+
+  /* Loading shimmer effect */
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, hsla(220, 14%, 96%, 0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Interactive button states */
+  .btn-primary {
+    @apply bg-gradient-to-r from-rose to-lavender text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium py-3 px-6 rounded-xl hover:bg-white/20 transition-all duration-300;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-moonlight/80 hover:text-white hover:bg-white/10 transition-all duration-300;
+  }
+
+  /* Card styles with glass effect */
+  .card-glass {
+    @apply glass-effect rounded-3xl p-6 shadow-lg;
+  }
+
+  /* Input styles */
+  .input-glass {
+    @apply bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-lavender focus:bg-white/20 transition-all duration-300;
+  }
+  
+  .input-glass::placeholder {
+    color: hsl(var(--moonlight) / 0.6);
+  }
+
+  /* Message bubble styles */
+  .message-sent {
+    @apply bg-gradient-to-r from-lavender to-rose text-white rounded-2xl rounded-br-sm px-4 py-3 max-w-xs ml-auto;
+  }
+
+  .message-received {
+    @apply bg-white/20 text-white rounded-2xl rounded-bl-sm px-4 py-3 max-w-xs;
+  }
+
+  .message-ai-suggestion {
+    @apply border-l-4 border-lavender rounded-2xl p-4;
+    background: linear-gradient(to right, hsl(var(--lavender) / 0.2), hsl(var(--rose) / 0.2));
+  }
+}
+
+@layer utilities {
+  /* Text gradient utilities */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--rose)) 0%, hsl(var(--lavender)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-secondary {
+    background: linear-gradient(135deg, hsl(var(--lavender)) 0%, hsl(var(--purple)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--lavender)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--lavender));
+    border-radius: 2px;
+  }
+
+  /* Mobile optimization utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .no-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Safe area utilities for mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
