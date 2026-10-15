@@ -2,6 +2,14 @@
 
 감정 지능을 활용한 AI 기반 한국어 데이팅 앱 (모바일 웹뷰 최적화)
 
+![React](https://img.shields.io/badge/React_18-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Drizzle](https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=flat-square&logo=drizzle&logoColor=black)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+
 ## 프로젝트 개요
 
 LUNE은 "Light Up New Emotions"의 줄임말로, 사용자들이 새로운 감정을 발견하고 키워나갈 수 있도록 돕는 지능형 데이팅 플랫폼입니다. 기존의 외모 중심 매칭과 달리, 감정적 호환성과 AI 기반 대화 코칭을 통해 의미 있는 연결을 만들어갑니다.
@@ -31,7 +39,7 @@ LUNE은 "Light Up New Emotions"의 줄임말로, 사용자들이 새로운 감�
 
 ### AI 서비스
 - **OpenAI GPT-4o** (프로필 분석, 매칭, 대화 제안)
-- **Embedding** 기반 호환성 점수 계산
+- **text-embedding-3-small** 프로필 임베딩 기반 호환성 점수 계산
 
 ## 설치 및 실행
 
@@ -110,11 +118,8 @@ npm run dev        # 개발 서버 시작
 
 ## 배포
 
-이 프로젝트는 Replit에서 개발되었으며, 다음 플랫폼에서 배포 가능합니다:
-- Replit Deployments
-- Vercel
-- Railway
-- Render
+Node.js 서버 하나(Express가 API·WebSocket·정적 파일을 함께 서빙)와 PostgreSQL만 있으면 됩니다.
+`npm run build` 후 `npm start`로 실행하며 Railway, Render, Fly.io 같은 플랫폼에 그대로 올릴 수 있습니다.
 
 ## 라이선스
 
